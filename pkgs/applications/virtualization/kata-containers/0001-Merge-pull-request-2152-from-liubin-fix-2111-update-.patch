@@ -1,0 +1,165 @@
+From e13ad881d7fe057dee06b0ad167959bb876970a4 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fabiano=20Fid=C3=AAncio?= <fidencio@redhat.com>
+Date: Thu, 1 Jul 2021 12:01:35 +0200
+Subject: [PATCH] Merge pull request #2152 from
+ liubin/fix/2111-update-netlink-libs
+
+agent: update netlink libraries
+---
+ src/agent/.gitignore |  1 +
+ src/agent/Cargo.lock | 58 +++++++++++++++-----------------------------
+ src/agent/Cargo.toml |  9 +++----
+ 3 files changed, 24 insertions(+), 44 deletions(-)
+
+diff --git a/src/agent/.gitignore b/src/agent/.gitignore
+index 581de563..ac1ee857 100644
+--- a/src/agent/.gitignore
++++ b/src/agent/.gitignore
+@@ -1 +1,2 @@
+ tarpaulin-report.html
++vendor/
+diff --git a/src/agent/Cargo.lock b/src/agent/Cargo.lock
+index a86bb27a..3bff8241 100644
+--- a/src/agent/Cargo.lock
++++ b/src/agent/Cargo.lock
+@@ -472,8 +472,8 @@ dependencies = [
+  "libc",
+  "log",
+  "logging",
+- "netlink-packet-utils 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+- "netlink-sys 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "netlink-packet-utils",
++ "netlink-sys",
+  "nix 0.17.0",
+  "oci",
+  "prctl",
+@@ -609,43 +609,34 @@ checksum = "2eb04b9f127583ed176e163fb9ec6f3e793b87e21deedd5734a69386a18a0151"
+ [[package]]
+ name = "netlink-packet-core"
+ version = "0.2.4"
+-source = "git+https://github.com/little-dude/netlink?rev=a9367bc4700496ddebc088110c28f40962923326#a9367bc4700496ddebc088110c28f40962923326"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "ac48279d5062bdf175bdbcb6b58ff1d6b0ecd54b951f7a0ff4bc0550fe903ccb"
+ dependencies = [
+  "anyhow",
+  "byteorder",
+  "libc",
+- "netlink-packet-utils 0.4.0 (git+https://github.com/little-dude/netlink?rev=a9367bc4700496ddebc088110c28f40962923326)",
++ "netlink-packet-utils",
+ ]
+ 
+ [[package]]
+ name = "netlink-packet-route"
+-version = "0.7.0"
+-source = "git+https://github.com/little-dude/netlink?rev=a9367bc4700496ddebc088110c28f40962923326#a9367bc4700496ddebc088110c28f40962923326"
++version = "0.7.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "4c92a86a6528fe6d0a811c48d28213ca896a2b8bf2f6cadf2ab5bb12d32ec0f1"
+ dependencies = [
+  "anyhow",
+  "bitflags",
+  "byteorder",
+  "libc",
+  "netlink-packet-core",
+- "netlink-packet-utils 0.4.0 (git+https://github.com/little-dude/netlink?rev=a9367bc4700496ddebc088110c28f40962923326)",
++ "netlink-packet-utils",
+ ]
+ 
+ [[package]]
+ name = "netlink-packet-utils"
+-version = "0.4.0"
++version = "0.4.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6c2afb159d0e3ac700e85f0df25b8438b99d43ed0c0b685242fcdf1b5673e54d"
+-dependencies = [
+- "anyhow",
+- "byteorder",
+- "paste",
+- "thiserror",
+-]
+-
+-[[package]]
+-name = "netlink-packet-utils"
+-version = "0.4.0"
+-source = "git+https://github.com/little-dude/netlink?rev=a9367bc4700496ddebc088110c28f40962923326#a9367bc4700496ddebc088110c28f40962923326"
++checksum = "5fcfb6f758b66e964b2339596d94078218d96aad5b32003e8e2a1d23c27a6784"
+ dependencies = [
+  "anyhow",
+  "byteorder",
+@@ -655,34 +646,24 @@ dependencies = [
+ 
+ [[package]]
+ name = "netlink-proto"
+-version = "0.6.0"
+-source = "git+https://github.com/little-dude/netlink?rev=a9367bc4700496ddebc088110c28f40962923326#a9367bc4700496ddebc088110c28f40962923326"
++version = "0.7.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "ddd06e90449ae973fe3888c1ff85949604ef5189b4ac9a2ae39518da1e00762d"
+ dependencies = [
+  "bytes 1.0.1",
+  "futures",
+  "log",
+  "netlink-packet-core",
+- "netlink-sys 0.6.0 (git+https://github.com/little-dude/netlink?rev=a9367bc4700496ddebc088110c28f40962923326)",
++ "netlink-sys",
+  "tokio",
+  "tokio-util",
+ ]
+ 
+ [[package]]
+ name = "netlink-sys"
+-version = "0.6.0"
++version = "0.7.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d61c5374735aa0cd07cb7fd820b656062b187b5588d79517f72956b57c6de9ef"
+-dependencies = [
+- "futures",
+- "libc",
+- "log",
+- "tokio",
+-]
+-
+-[[package]]
+-name = "netlink-sys"
+-version = "0.6.0"
+-source = "git+https://github.com/little-dude/netlink?rev=a9367bc4700496ddebc088110c28f40962923326#a9367bc4700496ddebc088110c28f40962923326"
++checksum = "f48ea34ea0678719815c3753155067212f853ad2d8ef4a49167bae7f7c254188"
+ dependencies = [
+  "futures",
+  "libc",
+@@ -1144,8 +1125,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "rtnetlink"
+-version = "0.7.0"
+-source = "git+https://github.com/little-dude/netlink?rev=a9367bc4700496ddebc088110c28f40962923326#a9367bc4700496ddebc088110c28f40962923326"
++version = "0.8.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "279f7e9a312496b3e726e776cbd1f3102bd5ffe66503c3f44d642f7327995919"
+ dependencies = [
+  "byteordered",
+  "futures",
+diff --git a/src/agent/Cargo.toml b/src/agent/Cargo.toml
+index 03fca4ed..0c547fcc 100644
+--- a/src/agent/Cargo.toml
++++ b/src/agent/Cargo.toml
+@@ -23,13 +23,10 @@ regex = "1"
+ async-trait = "0.1.42"
+ tokio = { version = "1.2.0", features = ["rt", "rt-multi-thread", "sync", "macros", "io-util", "time", "signal", "io-std", "process", "fs"] }
+ futures = "0.3.12"
+-netlink-sys = { version = "0.6.0", features = ["tokio_socket",]}
++netlink-sys = { version = "0.7.0", features = ["tokio_socket",]}
+ tokio-vsock = "0.3.1"
+-# Because the author has no time to maintain the crate, we switch the dependency to github,
+-# Once the new version released on crates.io, we switch it back.
+-# https://github.com/little-dude/netlink/issues/161
+-rtnetlink = { git = "https://github.com/little-dude/netlink", rev = "a9367bc4700496ddebc088110c28f40962923326" }
+-netlink-packet-utils = "0.4.0"
++rtnetlink = "0.8.0"
++netlink-packet-utils = "0.4.1"
+ ipnetwork = "0.17.0"
+ 
+ # slog:
+-- 
+2.31.1
+

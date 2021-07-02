@@ -28803,6 +28803,8 @@ in
     inherit (darwin.apple_sdk.frameworks) Carbon Cocoa;
   };
 
+  kata-containers = callPackage ../applications/virtualization/kata-containers { };
+
   katago = callPackage ../games/katago { };
 
   katagoWithCuda = katago.override {
