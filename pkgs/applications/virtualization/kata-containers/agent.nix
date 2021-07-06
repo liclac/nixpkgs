@@ -1,4 +1,4 @@
-{ pname, version, src, rustPlatform, kmod, coreutils }:
+{ pname, version, src, meta, rustPlatform, kmod, coreutils }:
 rustPlatform.buildRustPackage {
   pname = "${pname}-agent";
   inherit version src;
@@ -9,8 +9,8 @@ rustPlatform.buildRustPackage {
     # Backport an rtnetlink bump, which resolves a duplicate dependency issue.
     ./0001-agent-backport-netlink-bump-fix-cargo-vendor.patch
   ];
-  patchFlags = [ "-p3" ];
   depsExtraArgs.patchFlags = [ "-p3" ];
+  patchFlags = [ "-p3" ];
 
   # Fix hardcoded paths.
   postPatch = ''
@@ -33,4 +33,8 @@ rustPlatform.buildRustPackage {
     # be available, but you (thankfully!) can't modprobe from inside the sandbox.
     "--skip rpc::tests::test_load_kernel_module"
   ];
+
+  meta = meta // {
+    description = "kata-containers host agent";
+  };
 }
