@@ -21,6 +21,7 @@ let
   callPackage = newScope self;
   self = {
     agent = callPackage ./agent.nix args;
+    runtime = callPackage ./runtime.nix args;
   };
 in
 self
