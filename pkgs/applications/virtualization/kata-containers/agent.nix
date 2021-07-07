@@ -5,11 +5,10 @@ rustPlatform.buildRustPackage {
   sourceRoot = "source/src/agent";
   cargoSha256 = "07r28kcfyirg1s773l4plzr9rilwiadw57asxlf2armqiax8s2gm";
 
-  cargoPatches = [
+  patches = [
     # Backport an rtnetlink bump, which resolves a duplicate dependency issue.
     ./0001-agent-backport-netlink-bump-fix-cargo-vendor.patch
   ];
-  depsExtraArgs.patchFlags = [ "-p3" ];
   patchFlags = [ "-p3" ];
 
   # Fix hardcoded paths.
