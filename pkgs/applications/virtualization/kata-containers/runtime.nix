@@ -1,4 +1,4 @@
-{ lib, pname, version, src, meta, stdenv, go, git, bash }:
+{ lib, pname, version, src, meta, stdenv, go, git, bash, qemu }:
 stdenv.mkDerivation {
   pname = "${pname}-runtime";
   inherit version src;
@@ -15,7 +15,10 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [ go git ];
 
-  makeFlags = [ "PREFIX=$(out)" ];
+  makeFlags = [
+    "PREFIX=$(out)"
+    "QEMUBINDIR=${qemu}/bin"
+  ];
 
   doCheck = true;
 
